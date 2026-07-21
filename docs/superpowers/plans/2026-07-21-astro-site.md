@@ -6,7 +6,7 @@
 
 **Architecture:** Build-time parser turns `README.md` into zod-validated `Provider[]` (4 layout kinds). One-shot scripts fetch favicons, extract brand colors into `brand.json`, and capture screenshots (agent-browser). Hub page + 26 static provider pages; vanilla-JS MiniSearch island; pure static output.
 
-**Tech Stack:** Astro 6 (static), TypeScript strict, zod, cheerio 1.2, sharp 0.35, minisearch 7, vitest, @fontsource-variable/{mozilla-headline,dm-sans,geist-mono} 5.3, wrangler.
+**Tech Stack:** Astro 7 (static; 7.1.3 at plan time), TypeScript strict, zod 4, cheerio 1.2, sharp 0.35, minisearch 7, vitest 4, @fontsource-variable/{mozilla-headline,dm-sans,geist-mono} 5.3, wrangler 4.
 
 **Spec:** `docs/superpowers/specs/2026-07-21-astro-site-design.md`
 
@@ -82,7 +82,7 @@ Run: `npm run test` → Expected: "No test files found" exit 0 (or configure `pa
 - [ ] **Step 4: Commit**
 
 ```bash
-git add site && git commit -m "feat(site): scaffold Astro 6 project"
+git add site && git commit -m "feat(site): scaffold Astro 7 project"
 ```
 
 ---
@@ -160,7 +160,7 @@ export const CaveatSchema = z.enum(['phone-verification', 'data-training', 'geo-
 
 export const ModelSchema = z.object({
   name: z.string().min(1),
-  url: z.string().url().optional(),
+  url: z.url().optional(),
   limits: z.array(LimitSchema).optional(),
 });
 
@@ -169,13 +169,13 @@ export const LayoutKindSchema = z.enum(['per-model-table', 'shared-quota', 'cred
 export const ProviderSchema = z.object({
   slug: z.string().min(1),
   name: z.string().min(1),
-  url: z.string().url(),
+  url: z.url(),
   category: z.enum(['free', 'trial']),
   layout: LayoutKindSchema,
   caveats: z.array(CaveatSchema),
   notes: z.array(z.string()),
   limits: z.array(LimitSchema).optional(),
-  limitsUrl: z.string().url().optional(),
+  limitsUrl: z.url().optional(),
   credits: z.string().optional(),
   models: z.array(ModelSchema),
 });
@@ -1699,7 +1699,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: npm, cache-dependency-path: site/package-lock.json }
+        with: { node-version: 24, cache: npm, cache-dependency-path: site/package-lock.json }
       - run: npm ci
         working-directory: site
       - run: npm run test
