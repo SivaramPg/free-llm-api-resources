@@ -67,6 +67,16 @@ for (const p of getProviders()) {
       text: adjustForContrast(base, DARK_BG, 4.5),
     },
   };
+  // Clamp pure-black/white text tokens: a brand icon whose base color is
+  // already pure #000000/#ffffff passes adjustForContrast unchanged (it
+  // already clears the AA threshold), but the project forbids pure #000/#fff
+  // tokens outright. Substitute the design system's near-black/near-white
+  // instead — both still clear 4.5:1 against either bg, proven below by the
+  // hard assertion running *after* this clamp.
+  if (tokens.light.text === '#000000') tokens.light.text = '#141416';
+  if (tokens.light.text === '#ffffff') tokens.light.text = '#faf8f5';
+  if (tokens.dark.text === '#000000') tokens.dark.text = '#141416';
+  if (tokens.dark.text === '#ffffff') tokens.dark.text = '#faf8f5';
   // Hard assertion — script fails if any text token misses AA
   for (const [bg, t] of [[LIGHT_BG, tokens.light], [DARK_BG, tokens.dark]] as const) {
     const c = contrastRatio(t.text, bg);

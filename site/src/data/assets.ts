@@ -1,11 +1,14 @@
 import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, join } from 'node:path';
+import { findUpward } from './find-upward';
 
-// Resolved relative to process.cwd() (the `site/` directory, per project convention)
-// rather than import.meta.url: Astro/Vite inlines this module into a bundled chunk
-// during `astro build`, which moves its on-disk location and breaks import.meta.url-
-// relative resolution.
-const PUBLIC = resolve(process.cwd(), 'public') + '/';
+// Located via the repo root (the dir containing `site/package.json`) rather
+// than process.cwd() directly or import.meta.url: cwd varies (repo root vs
+// `site/`, depending on how the caller was invoked) and Astro/Vite inlines
+// this module into a bundled chunk during `astro build`, which moves its
+// on-disk location and breaks import.meta.url-relative resolution.
+const repoRoot = dirname(dirname(findUpward(join('site', 'package.json'))));
+const PUBLIC = join(repoRoot, 'site', 'public') + '/';
 
 export function faviconPath(slug: string): string | null {
   for (const ext of ['svg', 'png', 'webp', 'jpg', 'ico']) {

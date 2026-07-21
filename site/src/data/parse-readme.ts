@@ -1,10 +1,11 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { PROVIDER_META } from './provider-meta';
 import { ProviderSchema, slugify } from './schema';
 import type { Caveat, Limit, Model, Provider } from './schema';
 import { splitSections, parseLimitsBlock, parseLimitString, type RawSection } from './parse-helpers';
+import { findUpward } from './find-upward';
 
 // 'geo-restriction' (schema.ts Caveat) is intentionally not matched here yet:
 // the only candidate phrase in the README ("...outside of the UK/CH/EEA/EU")
@@ -130,15 +131,28 @@ export function parseReadme(markdown: string): Provider[] {
   return splitSections(markdown).map(parseSection);
 }
 
+/** Locates the repo-root README.md, guarding against picking up an unrelated
+ *  README.md elsewhere in the filesystem tree: `findUpward` alone would stop
+ *  at the *nearest* dir containing a `README.md`, which isn't necessarily
+ *  this repo's root. Instead we search for `site/package.json` — a marker
+ *  that's unambiguously this repo (its README.md's sibling) — and only then
+ *  read the README.md next to it. */
+function findRepoReadme(): string {
+  const siteManifest = findUpward(join('site', 'package.json'));
+  const repoRoot = dirname(dirname(siteManifest)); // site/package.json -> site/ -> root
+  const readmePath = join(repoRoot, 'README.md');
+  if (!existsSync(readmePath)) {
+    throw new Error(
+      `getProviders: found repo root "${repoRoot}" (via site/package.json) but it has no README.md next to it.`,
+    );
+  }
+  return readmePath;
+}
+
 let cache: Provider[] | undefined;
 export function getProviders(): Provider[] {
   if (!cache) {
-    // Resolved relative to process.cwd() (the `site/` directory, per project convention)
-    // rather than import.meta.url: Astro/Vite inlines this module into a bundled chunk
-    // during `astro build`, which moves its on-disk location and breaks import.meta.url-
-    // relative resolution for a path outside the project root.
-    const readmePath = resolve(process.cwd(), '..', 'README.md');
-    cache = parseReadme(readFileSync(readmePath, 'utf-8'));
+    cache = parseReadme(readFileSync(findRepoReadme(), 'utf-8'));
   }
   return cache;
 }
