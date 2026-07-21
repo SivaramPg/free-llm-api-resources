@@ -17,12 +17,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="theme-color" content="#141416" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#faf8f5" media="(prefers-color-scheme: light)" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
   <meta property="og:type" content="website" />
-  {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
-  <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+  <meta property="og:image" content={new URL(ogImage ?? '/og-default.png', Astro.site)} />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="sitemap" href="/sitemap-index.xml" />
   {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   <script is:inline>
