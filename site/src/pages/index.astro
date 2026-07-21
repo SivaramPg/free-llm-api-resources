@@ -1,6 +1,46 @@
 ---
 import Base from '../layouts/Base.astro';
+import ProviderCard from '../components/ProviderCard.astro';
+import { getProviders } from '../data/parse-readme';
+
+const providers = getProviders();
+const free = providers.filter(p => p.category === 'free');
+const trial = providers.filter(p => p.category === 'trial');
+const modelCount = providers.reduce((n, p) => n + p.models.length, 0);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Free LLM API providers',
+  itemListElement: providers.map((p, i) => ({
+    '@type': 'ListItem', position: i + 1, name: p.name,
+    url: new URL(`/providers/${p.slug}/`, Astro.site).href,
+  })),
+};
 ---
-<Base title="Free LLM API resources" description="Every service offering free LLM API access or trial credits — limits, models, and caveats, always current.">
-  <h1>Free LLM API resources</h1>
+<Base
+  title="Free LLM API resources — every free tier and trial credit, compared"
+  description={`${providers.length} services offering free LLM API access: rate limits, ${modelCount}+ models, verification requirements and caveats. Updated automatically.`}
+  jsonLd={jsonLd}
+>
+  <section class="hero">
+    <h1>Free LLM APIs, all in one place</h1>
+    <p>{providers.length} providers · {modelCount}+ models · limits and caveats, updated automatically.</p>
+    <p class="warn">⚠️ Please don't abuse these services, else we might lose them. Illegitimate services (e.g. reverse-engineered chatbots) are excluded.</p>
+    <div id="search-root"></div>
+  </section>
+
+  <h2 id="free">Free providers</h2>
+  <div class="grid">{free.map(p => <ProviderCard provider={p} />)}</div>
+
+  <h2 id="trial">Providers with trial credits</h2>
+  <div class="grid">{trial.map(p => <ProviderCard provider={p} />)}</div>
 </Base>
+<style>
+  .hero { padding-block: 2.5rem 1.5rem; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 0.5rem; }
+  .hero p { color: var(--text-muted); }
+  .warn { font-size: 0.85rem; margin-top: 0.5rem; }
+  h2 { margin: 2.5rem 0 1rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 0.9rem; }
+</style>

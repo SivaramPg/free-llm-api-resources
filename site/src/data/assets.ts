@@ -1,7 +1,11 @@
 import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 
-const PUBLIC = fileURLToPath(new URL('../../public/', import.meta.url));
+// Resolved relative to process.cwd() (the `site/` directory, per project convention)
+// rather than import.meta.url: Astro/Vite inlines this module into a bundled chunk
+// during `astro build`, which moves its on-disk location and breaks import.meta.url-
+// relative resolution.
+const PUBLIC = resolve(process.cwd(), 'public') + '/';
 
 export function faviconPath(slug: string): string | null {
   for (const ext of ['svg', 'png', 'webp', 'jpg', 'ico']) {

@@ -1,0 +1,14 @@
+---
+import type { Caveat } from '../data/schema';
+interface Props { caveat: Caveat }
+const LABELS: Record<Caveat, string> = {
+  'phone-verification': '📱 Phone verification',
+  'data-training': '🎓 Data used for training',
+  'geo-restriction': '🌍 Geo restrictions',
+};
+const { caveat } = Astro.props;
+---
+<span class="caveat">{LABELS[caveat]}</span>
+<style>
+  .caveat { font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 999px; background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-muted); white-space: nowrap; }
+</style>

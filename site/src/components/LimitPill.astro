@@ -1,0 +1,9 @@
+---
+import type { Limit } from '../data/schema';
+interface Props { limit: Limit }
+const { limit } = Astro.props;
+---
+<span class="limit mono">{limit.raw}</span>
+<style>
+  .limit { font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 6px; background: var(--bg-elev); border: 1px solid var(--border); }
+</style>

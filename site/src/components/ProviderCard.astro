@@ -1,0 +1,58 @@
+---
+import type { Provider } from '../data/schema';
+import brand from '../data/brand.json';
+import { faviconPath, screenshotPath } from '../data/assets';
+import CaveatBadge from './CaveatBadge.astro';
+
+interface Props { provider: Provider }
+const { provider: p } = Astro.props;
+const b = (brand as Record<string, any>)[p.slug];
+const favicon = faviconPath(p.slug);
+const shotLight = screenshotPath(p.slug, 'light');
+const shotDark = screenshotPath(p.slug, 'dark');
+const headline = p.credits ? `${p.credits} credits`
+  : p.limits?.[0]?.raw ?? p.models.find(m => m.limits?.length)?.limits?.[0]?.raw ?? null;
+const style = `--bwl:${b.light.wash};--bbl:${b.light.border};--btl:${b.light.text};--bwd:${b.dark.wash};--bbd:${b.dark.border};--btd:${b.dark.text};`;
+---
+<a class="card" href={`/providers/${p.slug}/`} style={style}>
+  {(shotLight || shotDark) && (
+    <span class="preview" aria-hidden="true">
+      {shotLight && <img class="shot-light" src={shotLight} alt="" loading="lazy" width="640" height="400" />}
+      {shotDark && <img class="shot-dark" src={shotDark} alt="" loading="lazy" width="640" height="400" />}
+    </span>
+  )}
+  <span class="head">
+    {favicon && <img class="icon" src={favicon} alt="" width="28" height="28" loading="lazy" />}
+    <span class="name">{p.name}</span>
+  </span>
+  <span class="meta">
+    {p.models.length > 1 && <span class="count mono">{p.models.length} models</span>}
+    {headline && <span class="headline mono">{headline}</span>}
+  </span>
+  {p.caveats.length > 0 && (
+    <span class="caveats">{p.caveats.map(c => <CaveatBadge caveat={c} />)}</span>
+  )}
+</a>
+<style>
+  .card {
+    position: relative; display: flex; flex-direction: column; gap: 0.55rem;
+    padding: 1rem 1.1rem; border-radius: 14px; overflow: hidden;
+    background: var(--bwl); border: 1px solid var(--bbl);
+    color: var(--text); text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  :global([data-theme='dark']) .card { background: var(--bwd); border-color: var(--bbd); }
+  .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); text-decoration: none; }
+  .head { display: flex; align-items: center; gap: 0.6rem; }
+  .icon { border-radius: 6px; }
+  .name { font-family: 'Mozilla Headline Variable', sans-serif; font-weight: 600; font-size: 1.05rem; color: var(--btl); }
+  :global([data-theme='dark']) .name { color: var(--btd); }
+  .meta { display: flex; gap: 0.5rem; flex-wrap: wrap; color: var(--text-muted); font-size: 0.78rem; }
+  .caveats { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+  .preview { position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
+  .preview img { width: 100%; height: 100%; object-fit: cover; object-position: top; position: absolute; inset: 0; }
+  .card:hover .preview { opacity: 0.14; }
+  .shot-dark { display: none; }
+  :global([data-theme='dark']) .shot-light { display: none; }
+  :global([data-theme='dark']) .shot-dark { display: block; }
+</style>

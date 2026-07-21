@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 import * as cheerio from 'cheerio';
 import { PROVIDER_META } from './provider-meta';
 import { ProviderSchema, slugify } from './schema';
@@ -133,7 +133,11 @@ export function parseReadme(markdown: string): Provider[] {
 let cache: Provider[] | undefined;
 export function getProviders(): Provider[] {
   if (!cache) {
-    const readmePath = fileURLToPath(new URL('../../../README.md', import.meta.url));
+    // Resolved relative to process.cwd() (the `site/` directory, per project convention)
+    // rather than import.meta.url: Astro/Vite inlines this module into a bundled chunk
+    // during `astro build`, which moves its on-disk location and breaks import.meta.url-
+    // relative resolution for a path outside the project root.
+    const readmePath = resolve(process.cwd(), '..', 'README.md');
     cache = parseReadme(readFileSync(readmePath, 'utf-8'));
   }
   return cache;
