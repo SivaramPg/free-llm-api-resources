@@ -1,0 +1,15 @@
+* { box-sizing: border-box; margin: 0; }
+html { color-scheme: light; }
+html[data-theme='dark'] { color-scheme: dark; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans Variable', system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-family: 'Mozilla Headline Variable', 'DM Sans Variable', sans-serif; line-height: 1.15; }
+code, .mono { font-family: 'Geist Mono Variable', ui-monospace, monospace; font-size: 0.9em; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { max-width: 72rem; margin-inline: auto; padding-inline: 1.25rem; }

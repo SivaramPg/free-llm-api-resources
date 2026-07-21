@@ -1,0 +1,18 @@
+:root {
+  --bg: #faf8f5;
+  --bg-elev: #f2efe9;
+  --text: #26242f;
+  --text-muted: #6b6876;
+  --border: #e3dfd7;
+  --accent: #6d5ef0;
+  --shadow: 0 2px 12px rgb(38 36 47 / 0.06);
+}
+[data-theme='dark'] {
+  --bg: #141416;
+  --bg-elev: #1c1c1f;
+  --text: #e8e6e3;
+  --text-muted: #9d9aa4;
+  --border: #2a2a2e;
+  --accent: #8f83f7;
+  --shadow: 0 2px 12px rgb(0 0 0 / 0.35);
+}

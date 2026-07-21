@@ -1,0 +1,64 @@
+---
+import '@fontsource-variable/mozilla-headline';
+import '@fontsource-variable/dm-sans';
+import '@fontsource-variable/geist-mono';
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+interface Props { title: string; description: string; ogImage?: string; jsonLd?: object }
+const { title, description, ogImage, jsonLd } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:type" content="website" />
+  {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
+  <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  <script is:inline>
+    const t = localStorage.getItem('theme')
+      ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.dataset.theme = t;
+  </script>
+</head>
+<body>
+  <header class="container site-header">
+    <a href="/" class="brand">Free LLM API resources</a>
+    <nav>
+      <a href="https://github.com/cheahjs/free-llm-api-resources">GitHub</a>
+      <button id="theme-toggle" aria-label="Toggle theme">◐</button>
+    </nav>
+  </header>
+  <main class="container"><slot /></main>
+  <footer class="container site-footer">
+    <p>
+      Data from <a href="https://github.com/cheahjs/free-llm-api-resources">cheahjs/free-llm-api-resources</a>.
+      Site by <a href="https://sivaram.dev">sivaram.dev</a>.
+      Please don't abuse these services, else we might lose them.
+    </p>
+  </footer>
+  <script>
+    document.getElementById('theme-toggle')!.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem('theme', next);
+    });
+  </script>
+  <style>
+    .site-header { display: flex; justify-content: space-between; align-items: center; padding-block: 1rem; }
+    .site-header .brand { color: var(--text); font-family: 'Mozilla Headline Variable', sans-serif; font-weight: 650; }
+    .site-header nav { display: flex; gap: 1rem; align-items: center; }
+    #theme-toggle { background: none; border: 1px solid var(--border); border-radius: 999px; color: var(--text); cursor: pointer; padding: 0.2rem 0.6rem; font-size: 1rem; }
+    .site-footer { padding-block: 2.5rem; color: var(--text-muted); font-size: 0.875rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+  </style>
+</body>
+</html>
