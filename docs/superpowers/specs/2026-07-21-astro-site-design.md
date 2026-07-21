@@ -1,4 +1,4 @@
-# Design: llm.sivaram.dev — Astro UI for free-llm-api-resources
+# Design: freellm.sivaram.dev — Astro UI for free-llm-api-resources
 
 Date: 2026-07-21
 Status: Approved (pending final spec review)
@@ -6,7 +6,7 @@ Status: Approved (pending final spec review)
 ## Goal
 
 A fast, visually distinctive static site presenting the free LLM API provider list
-from this repo's generated `README.md`. Hosted on Cloudflare at **llm.sivaram.dev**.
+from this repo's generated `README.md`. Hosted on Cloudflare at **freellm.sivaram.dev**.
 Purpose: best-in-class UX for this data + search traffic to sivaram.dev.
 
 ## Constraints & decisions (agreed)
@@ -25,7 +25,9 @@ Purpose: best-in-class UX for this data + search traffic to sivaram.dev.
 - **Search:** client-side fuzzy model search (MiniSearch) across all providers —
   the headline feature the README can't offer.
 - **Attribution:** footer credit + link to github.com/cheahjs/free-llm-api-resources.
-- **Canonical domain:** `https://llm.sivaram.dev` (OG tags, sitemap, canonical URLs).
+- **Canonical domain:** `https://freellm.sivaram.dev` (OG tags, sitemap, canonical URLs).
+  Exact-match hostname acknowledged as a negligible ranking factor — ranking work
+  happens at page level (see SEO section).
 
 ## Architecture
 
@@ -164,7 +166,29 @@ no-phone-verification. Progressive enhancement: no JS → grid still browsable.
 - Deploy on push to main via Cloudflare git integration → upstream README merges
   auto-refresh the site. Site build failure (parser drift) blocks deploy; last
   good version stays live.
-- Sitemap + per-page OG tags (provider screenshots double as OG images).
+
+## SEO
+
+Hostname keyword is negligible for ranking; the plan is page-level:
+
+- **Titles/descriptions:** per-provider pages target real queries — pattern
+  `"{Provider} free tier: models, rate limits & how to get an API key"`;
+  hub targets "free LLM API" head terms. Descriptions include the headline
+  limit and model count (fresh data → fresh snippets each deploy).
+- **Structured data (JSON-LD):** `ItemList` of providers on the hub;
+  per-provider `WebPage` + `ItemList` of models; `BreadcrumbList` on provider
+  pages.
+- **Mechanical hygiene:** `@astrojs/sitemap`, canonical URLs on every page,
+  OG + Twitter card tags (provider screenshots double as per-page OG images),
+  robots.txt, semantic heading hierarchy, descriptive internal anchor text.
+- **Freshness:** every upstream data merge redeploys with changed content and an
+  updated sitemap `lastmod`.
+- **Backlinks (post-launch):** PR to upstream README proposing a "browse as a
+  website" link; share in relevant communities. Out of build scope but the
+  highest-leverage ranking input.
+
+**Site-own favicon + OG image:** designed and added **last**, after the UI's
+visual identity settles (favicon, `og:image` for hub, `theme-color` meta).
 
 ## Error handling
 
