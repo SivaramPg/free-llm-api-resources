@@ -39,6 +39,7 @@ describe('parseReadme', () => {
     expect(bySlug['mistral-la-plateforme'].caveats).toContain('phone-verification');
     expect(bySlug['mistral-la-plateforme'].caveats).toContain('data-training');
     expect(bySlug['google-ai-studio'].caveats).toContain('data-training');
+    expect(bySlug['google-ai-studio'].caveats).not.toContain('geo-restriction');
   });
 
   it('unknown provider fails loudly', () => {

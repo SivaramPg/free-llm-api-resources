@@ -6,10 +6,13 @@ import { ProviderSchema, slugify } from './schema';
 import type { Caveat, Limit, Model, Provider } from './schema';
 import { splitSections, parseLimitsBlock, parseLimitString, type RawSection } from './parse-helpers';
 
+// 'geo-restriction' (schema.ts Caveat) is intentionally not matched here yet:
+// the only candidate phrase in the README ("...outside of the UK/CH/EEA/EU")
+// is Google AI Studio's data-training qualifier, not an access restriction.
+// Reserved for a future genuine geo-restriction pattern.
 const CAVEAT_PATTERNS: Array<[Caveat, RegExp]> = [
   ['phone-verification', /phone number verification/i],
   ['data-training', /data (is )?used for (training|improvement)|opting into data training|use data for improvement/i],
-  ['geo-restriction', /outside of the uk\/ch\/eea\/eu/i],
 ];
 
 function extractCaveats(body: string): Caveat[] {
