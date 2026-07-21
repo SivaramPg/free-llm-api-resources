@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import '@fontsource-variable/mozilla-headline';
 import '@fontsource-variable/dm-sans';
 import '@fontsource-variable/geist-mono';
@@ -35,7 +36,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <a href="/" class="brand">Free LLM API resources</a>
     <nav>
       <a href="https://github.com/cheahjs/free-llm-api-resources">GitHub</a>
-      <button id="theme-toggle" aria-label="Toggle theme">◐</button>
+      <button id="theme-toggle" aria-label="Toggle theme"><Icon name="lucide:sun-moon" aria-hidden="true" /></button>
     </nav>
   </header>
   <main class="container"><slot /></main>
@@ -57,7 +58,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     .site-header { display: flex; justify-content: space-between; align-items: center; padding-block: 1rem; }
     .site-header .brand { color: var(--text); font-family: 'Mozilla Headline Variable', sans-serif; font-weight: 650; }
     .site-header nav { display: flex; gap: 1rem; align-items: center; }
-    #theme-toggle { background: none; border: 1px solid var(--border); border-radius: 999px; color: var(--text); cursor: pointer; padding: 0.2rem 0.6rem; font-size: 1rem; }
+    #theme-toggle { display: inline-flex; align-items: center; justify-content: center; background: none; border: 1px solid var(--border); border-radius: 999px; color: var(--text); cursor: pointer; padding: 0.35rem; font-size: 1rem; }
+    #theme-toggle [data-icon] { width: 0.9em; height: 0.9em; }
     .site-footer { padding-block: 2.5rem; color: var(--text-muted); font-size: 0.875rem; border-top: 1px solid var(--border); margin-top: 3rem; }
   </style>
 </body>

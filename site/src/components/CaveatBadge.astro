@@ -1,14 +1,17 @@
 ---
+import { Icon } from 'astro-icon/components';
 import type { Caveat } from '../data/schema';
 interface Props { caveat: Caveat }
-const LABELS: Record<Caveat, string> = {
-  'phone-verification': '📱 Phone verification',
-  'data-training': '🎓 Data used for training',
-  'geo-restriction': '🌍 Geo restrictions',
+const LABELS: Record<Caveat, { icon: string; label: string }> = {
+  'phone-verification': { icon: 'lucide:smartphone', label: 'Phone verification' },
+  'data-training': { icon: 'lucide:graduation-cap', label: 'Data used for training' },
+  'geo-restriction': { icon: 'lucide:globe', label: 'Geo restrictions' },
 };
 const { caveat } = Astro.props;
+const { icon, label } = LABELS[caveat];
 ---
-<span class="caveat">{LABELS[caveat]}</span>
+<span class="caveat"><Icon name={icon} aria-hidden="true" class="caveat-icon" />{label}</span>
 <style>
-  .caveat { font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 999px; background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-muted); white-space: nowrap; }
+  .caveat { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 999px; background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-muted); white-space: nowrap; }
+  .caveat-icon { width: 0.9em; height: 0.9em; flex-shrink: 0; }
 </style>

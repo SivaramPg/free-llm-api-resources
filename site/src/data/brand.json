@@ -78,16 +78,16 @@
     }
   },
   "vercel-ai-gateway": {
-    "base": "#000000",
+    "base": "#141416",
     "light": {
-      "wash": "#e6e4e1",
-      "border": "#afaeac",
+      "wash": "#e8e6e3",
+      "border": "#b5b4b2",
       "text": "#141416"
     },
     "dark": {
-      "wash": "#121213",
-      "border": "#0d0d0e",
-      "text": "#898887"
+      "wash": "#141416",
+      "border": "#141416",
+      "text": "#878686"
     }
   },
   "opencode-zen": {
@@ -208,16 +208,16 @@
     }
   },
   "novita": {
-    "base": "#000000",
+    "base": "#141416",
     "light": {
-      "wash": "#e6e4e1",
-      "border": "#afaeac",
+      "wash": "#e8e6e3",
+      "border": "#b5b4b2",
       "text": "#141416"
     },
     "dark": {
-      "wash": "#121213",
-      "border": "#0d0d0e",
-      "text": "#898887"
+      "wash": "#141416",
+      "border": "#141416",
+      "text": "#878686"
     }
   },
   "ai21": {

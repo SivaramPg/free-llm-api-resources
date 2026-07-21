@@ -53,7 +53,12 @@ const out: Record<string, unknown> = {};
 for (const p of getProviders()) {
   const file = files.find(f => f.startsWith(`${p.slug}.`));
   const override = PROVIDER_META[p.slug]?.colorOverride;
-  const base = override ?? (file ? await extractBase(FAV_DIR + file) : '#7a7a85');
+  let base = override ?? (file ? await extractBase(FAV_DIR + file) : '#7a7a85');
+  // Clamp pure-black/white BASE brand colors to the design system's
+  // near-black/near-white, same treatment as the derived text tokens below —
+  // the project forbids pure #000/#fff tokens outright.
+  if (base === '#000000') base = '#141416';
+  if (base === '#ffffff') base = '#faf8f5';
   const tokens = {
     base,
     light: {

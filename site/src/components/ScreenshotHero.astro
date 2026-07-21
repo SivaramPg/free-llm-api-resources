@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import type { Provider } from '../data/schema';
 import brand from '../data/brand.json';
 import { faviconPath, screenshotPath } from '../data/assets';
@@ -17,7 +18,7 @@ const style = `--brand:${b.base};--btl:${b.light.text};--btd:${b.dark.text};`;
   <div class="overlay">
     {favicon && <img class="icon" src={favicon} alt="" width="44" height="44" />}
     <h1>{p.name}</h1>
-    <a class="cta" href={p.url} rel="noopener">Get API key ↗</a>
+    <a class="cta" href={p.url} rel="noopener">Get API key <Icon name="lucide:arrow-up-right" aria-hidden="true" class="cta-icon" /></a>
   </div>
 </div>
 <style>
@@ -34,7 +35,13 @@ const style = `--brand:${b.base};--btl:${b.light.text};--btd:${b.dark.text};`;
   }
   .overlay h1 { font-size: clamp(1.4rem, 3.5vw, 2.2rem); flex: 1; color: var(--btl); }
   :global([data-theme='dark']) .overlay h1 { color: var(--btd); }
-  .icon { border-radius: 9px; }
-  .cta { background: var(--brand); color: #faf8f5; padding: 0.45rem 1rem; border-radius: 9px; font-weight: 600; white-space: nowrap; }
+  .icon {
+    border-radius: 9px; padding: 5px; box-sizing: content-box;
+    background: var(--bg-elev); border: 1px solid var(--border);
+  }
+  /* Dark theme: keep the chip light so dark favicon marks stay legible. */
+  :global([data-theme='dark']) .icon { background: #f4f1ec; border-color: #d9d4ca; }
+  .cta { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--brand); color: #faf8f5; padding: 0.45rem 1rem; border-radius: 9px; font-weight: 600; white-space: nowrap; }
+  .cta-icon { width: 0.9em; height: 0.9em; flex-shrink: 0; }
   .cta:hover { text-decoration: none; filter: brightness(1.1); }
 </style>

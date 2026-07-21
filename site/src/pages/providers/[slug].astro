@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import Base from '../../layouts/Base.astro';
 import ScreenshotHero from '../../components/ScreenshotHero.astro';
 import ModelTable from '../../components/ModelTable.astro';
@@ -65,7 +66,7 @@ const jsonLd = {
     <section>
       <h2>Limits{p.layout === 'shared-quota' && p.models.length > 1 ? ' (shared across models)' : ''}</h2>
       <div class="limit-row">{p.limits.map(l => <LimitPill limit={l} />)}</div>
-      {p.limitsUrl && <p class="src"><a href={p.limitsUrl} rel="noopener">Official limits documentation ↗</a></p>}
+      {p.limitsUrl && <p class="src"><a href={p.limitsUrl} rel="noopener">Official limits documentation <Icon name="lucide:arrow-up-right" aria-hidden="true" class="src-icon" /></a></p>}
     </section>
   )}
 
@@ -90,5 +91,6 @@ const jsonLd = {
   .credits-banner { font-size: 1.1rem; }
   .credits-banner .amount { font-family: 'Mozilla Headline Variable', sans-serif; font-size: 2rem; font-weight: 700; }
   .src { font-size: 0.85rem; margin-top: 0.5rem; }
+  .src-icon { width: 0.9em; height: 0.9em; vertical-align: -0.1em; }
   .pn { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.9rem; flex-wrap: wrap; }
 </style>

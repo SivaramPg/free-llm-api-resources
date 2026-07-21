@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import Base from '../layouts/Base.astro';
 import ProviderCard from '../components/ProviderCard.astro';
 import Search from '../components/Search.astro';
@@ -27,7 +28,7 @@ const jsonLd = {
   <section class="hero">
     <h1>Free LLM APIs, all in one place</h1>
     <p>{providers.length} providers · {modelCount}+ models · limits and caveats, updated automatically.</p>
-    <p class="warn">⚠️ Please don't abuse these services, else we might lose them. Illegitimate services (e.g. reverse-engineered chatbots) are excluded.</p>
+    <p class="warn"><span class="warn-icon"><Icon name="lucide:triangle-alert" aria-hidden="true" /></span> Please don't abuse these services, else we might lose them. Illegitimate services (e.g. reverse-engineered chatbots) are excluded.</p>
     <Search />
   </section>
 
@@ -42,6 +43,8 @@ const jsonLd = {
   .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 0.5rem; }
   .hero p { color: var(--text-muted); }
   .warn { font-size: 0.85rem; margin-top: 0.5rem; }
+  .warn-icon { display: inline-flex; vertical-align: -0.15em; color: #d97706; }
+  .warn-icon [data-icon] { width: 0.9em; height: 0.9em; }
   h2 { margin: 2.5rem 0 1rem; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 0.9rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); grid-auto-rows: 1fr; gap: 0.9rem; }
 </style>
