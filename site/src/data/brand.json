@@ -1,0 +1,340 @@
+{
+  "openrouter": {
+    "base": "#7725f4",
+    "light": {
+      "wash": "#f0e7f5",
+      "border": "#d3b9f5",
+      "text": "#7725f4"
+    },
+    "dark": {
+      "wash": "#201631",
+      "border": "#371a64",
+      "text": "#9e64f4"
+    }
+  },
+  "google-ai-studio": {
+    "base": "#3287fe",
+    "light": {
+      "wash": "#eaeff6",
+      "border": "#bed6f8",
+      "text": "#2c70d0"
+    },
+    "dark": {
+      "wash": "#182232",
+      "border": "#1f3c67",
+      "text": "#3287fe"
+    }
+  },
+  "nvidia-nim": {
+    "base": "#74b800",
+    "light": {
+      "wash": "#eff3e1",
+      "border": "#d2e5ac",
+      "text": "#527f08"
+    },
+    "dark": {
+      "wash": "#202813",
+      "border": "#364d0e",
+      "text": "#74b800"
+    }
+  },
+  "mistral-la-plateforme": {
+    "base": "#fa520f",
+    "light": {
+      "wash": "#faebe3",
+      "border": "#fac6b0",
+      "text": "#c14311"
+    },
+    "dark": {
+      "wash": "#301b15",
+      "border": "#652a14",
+      "text": "#fa520f"
+    }
+  },
+  "mistral-codestral": {
+    "base": "#fa520f",
+    "light": {
+      "wash": "#faebe3",
+      "border": "#fac6b0",
+      "text": "#c14311"
+    },
+    "dark": {
+      "wash": "#301b15",
+      "border": "#652a14",
+      "text": "#fa520f"
+    }
+  },
+  "huggingface-inference-providers": {
+    "base": "#ffd21e",
+    "light": {
+      "wash": "#faf5e4",
+      "border": "#fcedb5",
+      "text": "#7e6a1a"
+    },
+    "dark": {
+      "wash": "#302b17",
+      "border": "#665719",
+      "text": "#ffd21e"
+    }
+  },
+  "vercel-ai-gateway": {
+    "base": "#000000",
+    "light": {
+      "wash": "#e6e4e1",
+      "border": "#afaeac",
+      "text": "#000000"
+    },
+    "dark": {
+      "wash": "#121213",
+      "border": "#0d0d0e",
+      "text": "#898887"
+    }
+  },
+  "opencode-zen": {
+    "base": "#131010",
+    "light": {
+      "wash": "#e8e5e3",
+      "border": "#b5b2b0",
+      "text": "#131010"
+    },
+    "dark": {
+      "wash": "#141415",
+      "border": "#141314",
+      "text": "#878483"
+    }
+  },
+  "cerebras": {
+    "base": "#f95b2a",
+    "light": {
+      "wash": "#faebe5",
+      "border": "#fac9b8",
+      "text": "#c04925"
+    },
+    "dark": {
+      "wash": "#2f1d18",
+      "border": "#642d1d",
+      "text": "#f95b2a"
+    }
+  },
+  "groq": {
+    "base": "#f43e01",
+    "light": {
+      "wash": "#fae9e1",
+      "border": "#f8c0ac",
+      "text": "#d23804"
+    },
+    "dark": {
+      "wash": "#2f1913",
+      "border": "#62230f",
+      "text": "#f43e01"
+    }
+  },
+  "cohere": {
+    "base": "#ff7759",
+    "light": {
+      "wash": "#faeee9",
+      "border": "#fcd1c6",
+      "text": "#ad5442"
+    },
+    "dark": {
+      "wash": "#30201e",
+      "border": "#66372d",
+      "text": "#ff7759"
+    }
+  },
+  "github-models": {
+    "base": "#191717",
+    "light": {
+      "wash": "#e8e6e3",
+      "border": "#b7b5b2",
+      "text": "#191717"
+    },
+    "dark": {
+      "wash": "#151416",
+      "border": "#161516",
+      "text": "#8a8886"
+    }
+  },
+  "cloudflare-workers-ai": {
+    "base": "#f6821f",
+    "light": {
+      "wash": "#faefe4",
+      "border": "#f9d5b5",
+      "text": "#a75c1c"
+    },
+    "dark": {
+      "wash": "#2f2117",
+      "border": "#633b19",
+      "text": "#f6821f"
+    }
+  },
+  "fireworks": {
+    "base": "#590cff",
+    "light": {
+      "wash": "#ede5f6",
+      "border": "#cab1f8",
+      "text": "#590cff"
+    },
+    "dark": {
+      "wash": "#1c1332",
+      "border": "#2c1168",
+      "text": "#915ffc"
+    }
+  },
+  "baseten": {
+    "base": "#19e76e",
+    "light": {
+      "wash": "#e8f7ea",
+      "border": "#b7f3cd",
+      "text": "#177e42"
+    },
+    "dark": {
+      "wash": "#152d21",
+      "border": "#165e35",
+      "text": "#19e76e"
+    }
+  },
+  "nebius": {
+    "base": "#e0ff4f",
+    "light": {
+      "wash": "#f8f9e8",
+      "border": "#f2fac3",
+      "text": "#66722d"
+    },
+    "dark": {
+      "wash": "#2c301d",
+      "border": "#5b662a",
+      "text": "#e0ff4f"
+    }
+  },
+  "novita": {
+    "base": "#000000",
+    "light": {
+      "wash": "#e6e4e1",
+      "border": "#afaeac",
+      "text": "#000000"
+    },
+    "dark": {
+      "wash": "#121213",
+      "border": "#0d0d0e",
+      "text": "#898887"
+    }
+  },
+  "ai21": {
+    "base": "#e72164",
+    "light": {
+      "wash": "#f8e7e9",
+      "border": "#f4b8ca",
+      "text": "#d2205c"
+    },
+    "dark": {
+      "wash": "#2d161f",
+      "border": "#5e1931",
+      "text": "#e93773"
+    }
+  },
+  "upstage": {
+    "base": "#434c60",
+    "light": {
+      "wash": "#ebeae9",
+      "border": "#c3c4c8",
+      "text": "#434c60"
+    },
+    "dark": {
+      "wash": "#1a1b1f",
+      "border": "#242830",
+      "text": "#7a808d"
+    }
+  },
+  "nlp-cloud": {
+    "base": "#00d2b3",
+    "light": {
+      "wash": "#e6f5f0",
+      "border": "#afede1",
+      "text": "#097d6c"
+    },
+    "dark": {
+      "wash": "#122b29",
+      "border": "#0d574d",
+      "text": "#00d2b3"
+    }
+  },
+  "alibaba-cloud-international-model-studio": {
+    "base": "#19edd6",
+    "light": {
+      "wash": "#e8f7f3",
+      "border": "#b7f5ec",
+      "text": "#16766c"
+    },
+    "dark": {
+      "wash": "#152e2d",
+      "border": "#166059",
+      "text": "#19edd6"
+    }
+  },
+  "modal": {
+    "base": "#09af58",
+    "light": {
+      "wash": "#e7f2e8",
+      "border": "#b2e2c6",
+      "text": "#0c8144"
+    },
+    "dark": {
+      "wash": "#13271e",
+      "border": "#104a2d",
+      "text": "#09af58"
+    }
+  },
+  "inference-net": {
+    "base": "#0f0f0f",
+    "light": {
+      "wash": "#e7e5e3",
+      "border": "#b4b2b0",
+      "text": "#0f0f0f"
+    },
+    "dark": {
+      "wash": "#131315",
+      "border": "#121214",
+      "text": "#858482"
+    }
+  },
+  "hyperbolic": {
+    "base": "#594ce9",
+    "light": {
+      "wash": "#edeaf4",
+      "border": "#cac4f1",
+      "text": "#594ce9"
+    },
+    "dark": {
+      "wash": "#1c1b2f",
+      "border": "#2c2860",
+      "text": "#796eeb"
+    }
+  },
+  "sambanova-cloud": {
+    "base": "#250e36",
+    "light": {
+      "wash": "#e9e5e6",
+      "border": "#bab2bc",
+      "text": "#250e36"
+    },
+    "dark": {
+      "wash": "#16131a",
+      "border": "#1a1221",
+      "text": "#908396"
+    }
+  },
+  "scaleway-generative-apis": {
+    "base": "#bf95f9",
+    "light": {
+      "wash": "#f5f0f5",
+      "border": "#e8daf6",
+      "text": "#7b619e"
+    },
+    "dark": {
+      "wash": "#292331",
+      "border": "#504165",
+      "text": "#bf95f9"
+    }
+  }
+}
