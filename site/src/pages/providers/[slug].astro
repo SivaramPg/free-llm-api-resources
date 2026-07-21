@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import ScreenshotHero from '../../components/ScreenshotHero.astro';
+import ModelTable from '../../components/ModelTable.astro';
+import ModelList from '../../components/ModelList.astro';
+import CaveatBadge from '../../components/CaveatBadge.astro';
+import LimitPill from '../../components/LimitPill.astro';
+import { getProviders } from '../../data/parse-readme';
+import { screenshotPath } from '../../data/assets';
+
+export function getStaticPaths() {
+  return getProviders().map(p => ({ params: { slug: p.slug }, props: { provider: p } }));
+}
+const { provider: p } = Astro.props;
+const all = getProviders();
+const idx = all.findIndex(x => x.slug === p.slug);
+const prev = all[(idx - 1 + all.length) % all.length];
+const next = all[(idx + 1) % all.length];
+
+const title = p.category === 'trial'
+  ? `${p.name} trial credits: ${p.credits ?? 'free credits'}, models & how to start`
+  : `${p.name} free tier: models, rate limits & how to get an API key`;
+const description = [
+  `${p.name} offers ${p.category === 'trial' ? `${p.credits ?? 'trial'} in credits` : 'a free tier'}`,
+  p.models.length > 1 ? `${p.models.length} models` : null,
+  p.limits?.[0]?.raw ?? null,
+].filter(Boolean).join(' · ');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Providers', item: new URL('/', Astro.site).href },
+      { '@type': 'ListItem', position: 2, name: p.name, item: new URL(`/providers/${p.slug}/`, Astro.site).href },
+    ],
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    name: `${p.name} free models`,
+    itemListElement: p.models.slice(0, 50).map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: m.name })),
+  },
+};
+---
+<Base title={title} description={description} ogImage={screenshotPath(p.slug, 'light') ?? undefined} jsonLd={jsonLd}>
+  <ScreenshotHero provider={p} />
+
+  {p.caveats.length > 0 && (
+    <div class="caveats">{p.caveats.map(c => <CaveatBadge caveat={c} />)}</div>
+  )}
+
+  {p.notes.length > 0 && (
+    <section class="notes">{p.notes.map(n => <p>{n}</p>)}</section>
+  )}
+
+  {p.credits && (
+    <section class="credits-banner">
+      <span class="amount">{p.credits}</span> in trial credits
+    </section>
+  )}
+
+  {p.limits && p.limits.length > 0 && (
+    <section>
+      <h2>Limits{p.layout === 'shared-quota' && p.models.length > 1 ? ' (shared across models)' : ''}</h2>
+      <div class="limit-row">{p.limits.map(l => <LimitPill limit={l} />)}</div>
+      {p.limitsUrl && <p class="src"><a href={p.limitsUrl} rel="noopener">Official limits documentation ↗</a></p>}
+    </section>
+  )}
+
+  {p.models.length > 0 && (
+    <section>
+      <h2>Models</h2>
+      {p.layout === 'per-model-table' ? <ModelTable models={p.models} /> : <ModelList models={p.models} />}
+    </section>
+  )}
+
+  <nav class="pn">
+    <a href={`/providers/${prev.slug}/`}>← {prev.name}</a>
+    <a href="/">All providers</a>
+    <a href={`/providers/${next.slug}/`}>{next.name} →</a>
+  </nav>
+</Base>
+<style>
+  section { margin-block: 1.5rem; }
+  h2 { margin-bottom: 0.75rem; }
+  .caveats, .limit-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .notes p { color: var(--text-muted); margin-block: 0.35rem; }
+  .credits-banner { font-size: 1.1rem; }
+  .credits-banner .amount { font-family: 'Mozilla Headline Variable', sans-serif; font-size: 2rem; font-weight: 700; }
+  .src { font-size: 0.85rem; margin-top: 0.5rem; }
+  .pn { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.9rem; flex-wrap: wrap; }
+</style>

@@ -1,0 +1,40 @@
+---
+import type { Provider } from '../data/schema';
+import brand from '../data/brand.json';
+import { faviconPath, screenshotPath } from '../data/assets';
+interface Props { provider: Provider }
+const { provider: p } = Astro.props;
+const b = (brand as Record<string, any>)[p.slug];
+const favicon = faviconPath(p.slug);
+const shotLight = screenshotPath(p.slug, 'light');
+const shotDark = screenshotPath(p.slug, 'dark');
+const style = `--brand:${b.base};--btl:${b.light.text};--btd:${b.dark.text};`;
+---
+<div class="hero" style={style}>
+  {shotLight && <img class="shot shot-light" src={shotLight} alt={`${p.name} homepage`} width="1440" height="900" />}
+  {shotDark && <img class="shot shot-dark" src={shotDark} alt={`${p.name} homepage`} width="1440" height="900" />}
+  {!shotLight && !shotDark && <div class="shot placeholder" />}
+  <div class="overlay">
+    {favicon && <img class="icon" src={favicon} alt="" width="44" height="44" />}
+    <h1>{p.name}</h1>
+    <a class="cta" href={p.url} rel="noopener">Get API key ↗</a>
+  </div>
+</div>
+<style>
+  .hero { position: relative; border-radius: 16px; overflow: hidden; margin-block: 1rem; border: 1px solid var(--border); }
+  .shot { width: 100%; height: clamp(180px, 32vw, 320px); object-fit: cover; object-position: top; display: block; }
+  .placeholder { background: linear-gradient(135deg, var(--brand), var(--bg-elev)); }
+  .shot-dark { display: none; }
+  :global([data-theme='dark']) .shot-light { display: none; }
+  :global([data-theme='dark']) .shot-dark { display: block; }
+  .overlay {
+    position: absolute; inset: auto 0 0 0; display: flex; align-items: center; gap: 0.8rem;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(transparent, color-mix(in srgb, var(--bg) 88%, var(--brand)));
+  }
+  .overlay h1 { font-size: clamp(1.4rem, 3.5vw, 2.2rem); flex: 1; color: var(--btl); }
+  :global([data-theme='dark']) .overlay h1 { color: var(--btd); }
+  .icon { border-radius: 9px; }
+  .cta { background: var(--brand); color: #faf8f5; padding: 0.45rem 1rem; border-radius: 9px; font-weight: 600; white-space: nowrap; }
+  .cta:hover { text-decoration: none; filter: brightness(1.1); }
+</style>

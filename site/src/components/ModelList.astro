@@ -1,0 +1,14 @@
+---
+import type { Model } from '../data/schema';
+interface Props { models: Model[] }
+const { models } = Astro.props;
+---
+<ul class="models">
+  {models.map(m => (
+    <li class="mono">{m.url ? <a href={m.url} rel="noopener">{m.name}</a> : m.name}</li>
+  ))}
+</ul>
+<style>
+  .models { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 0.4rem; font-size: 0.88rem; }
+  .models li { padding: 0.45rem 0.7rem; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 8px; overflow-wrap: anywhere; }
+</style>

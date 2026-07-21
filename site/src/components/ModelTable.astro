@@ -1,0 +1,26 @@
+---
+import type { Model } from '../data/schema';
+import LimitPill from './LimitPill.astro';
+interface Props { models: Model[] }
+const { models } = Astro.props;
+---
+<div class="wrap">
+  <table>
+    <thead><tr><th>Model</th><th>Limits</th></tr></thead>
+    <tbody>
+      {models.map(m => (
+        <tr>
+          <td class="mono">{m.url ? <a href={m.url} rel="noopener">{m.name}</a> : m.name}</td>
+          <td class="limits">{(m.limits ?? []).map(l => <LimitPill limit={l} />)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<style>
+  .wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid var(--border); font-family: 'Mozilla Headline Variable', sans-serif; }
+  td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .limits { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+</style>
