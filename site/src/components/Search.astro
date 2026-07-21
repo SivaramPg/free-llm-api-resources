@@ -1,0 +1,62 @@
+<div class="search">
+  <input id="model-search" type="search" placeholder="Search any model — e.g. llama 3.3, gemma, whisper…" autocomplete="off" />
+  <label class="filter"><input type="checkbox" id="no-phone" /> No phone verification</label>
+  <div id="search-results" hidden></div>
+</div>
+<script>
+  import MiniSearch from 'minisearch';
+  import { MINISEARCH_OPTIONS } from '../data/search-options';
+
+  let mini: MiniSearch | null = null;
+  const input = document.getElementById('model-search') as HTMLInputElement;
+  const noPhone = document.getElementById('no-phone') as HTMLInputElement;
+  const results = document.getElementById('search-results')!;
+
+  async function ensureIndex() {
+    if (mini) return;
+    const res = await fetch('/search-index.json');
+    mini = MiniSearch.loadJSON(await res.text(), MINISEARCH_OPTIONS);
+  }
+
+  function esc(s: string) {
+    return s.replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
+  }
+
+  function render() {
+    const q = input.value.trim();
+    if (!mini || q.length < 2) { results.hidden = true; results.innerHTML = ''; return; }
+    let hits = mini.search(q, { prefix: true, fuzzy: 0.2 });
+    if (noPhone.checked) hits = hits.filter(h => !h.phone);
+    results.hidden = false;
+    results.innerHTML = hits.slice(0, 30).map(h => `
+      <a class="hit" href="/providers/${esc(h.slug)}/">
+        <span class="hit-model mono">${esc(h.model)}</span>
+        <span class="hit-provider">${esc(h.provider)}${h.category === 'trial' ? ' · trial credits' : ''}</span>
+        ${h.limits ? `<span class="hit-limits mono">${esc(h.limits)}</span>` : ''}
+      </a>`).join('') || '<p class="none">No models match.</p>';
+  }
+
+  input.addEventListener('focus', ensureIndex, { once: true });
+  input.addEventListener('input', async () => { await ensureIndex(); render(); });
+  noPhone.addEventListener('change', render);
+</script>
+<style>
+  .search { margin-top: 1.25rem; max-width: 40rem; }
+  #model-search {
+    width: 100%; padding: 0.7rem 1rem; font: inherit; color: var(--text);
+    background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px;
+  }
+  #model-search:focus { outline: 2px solid var(--accent); }
+  .filter { display: inline-flex; gap: 0.4rem; align-items: center; font-size: 0.82rem; color: var(--text-muted); margin-top: 0.5rem; }
+  #search-results { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; max-height: 24rem; overflow-y: auto; }
+  #search-results :global(.hit) {
+    display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 0.75rem;
+    padding: 0.5rem 0.8rem; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--bg-elev); color: var(--text);
+  }
+  #search-results :global(.hit:hover) { border-color: var(--accent); text-decoration: none; }
+  #search-results :global(.hit-model) { font-size: 0.88rem; }
+  #search-results :global(.hit-provider) { color: var(--text-muted); font-size: 0.8rem; }
+  #search-results :global(.hit-limits) { grid-column: 1 / -1; color: var(--text-muted); font-size: 0.72rem; }
+  #search-results :global(.none) { color: var(--text-muted); }
+</style>
