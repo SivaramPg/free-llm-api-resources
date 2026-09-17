@@ -9,6 +9,7 @@ import '../styles/global.css';
 interface Props { title: string; description: string; ogImage?: string; jsonLd?: object }
 const { title, description, ogImage, jsonLd } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const isProd = import.meta.env.PROD && import.meta.env.PUBLIC_STAGING !== 'true';
 ---
 <html lang="en">
 <head>
@@ -28,6 +29,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="sitemap" href="/sitemap-index.xml" />
   {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  {isProd ? (
+    <script is:inline defer src="https://varam-analytics.sivaramp.com/scripts/gojo.js"></script>
+  ) : (
+    <script is:inline defer src="https://varam-analytics.sivaramp.com/scripts/sukuna.js" data-debug="freellm.sivaram.dev"></script>
+  )}
   <script is:inline>
     const t = localStorage.getItem('theme')
       ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -38,7 +44,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <header class="container site-header">
     <a href="/" class="brand">Free LLM API resources</a>
     <nav>
-      <a href="https://github.com/cheahjs/free-llm-api-resources">GitHub</a>
+      <a href="https://github.com/SivaramPg/free-llm-api-resources">GitHub</a>
       <button id="theme-toggle" aria-label="Toggle theme"><Icon name="lucide:sun-moon" aria-hidden="true" /></button>
     </nav>
   </header>
